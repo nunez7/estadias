@@ -11,37 +11,17 @@ descripcion varchar (50)
 
 CREATE TABLE numero_avance_estadia(
 cve_numero_avance_estadia serial primary key,
-descripcion varchar (10)
-); ---tabla post revision
+descripcion varchar (20)
+);
 
 CREATE TABLE tipo_carta_estadia(
 cve_tipo_carta_estadia serial primary key,
 descripcion varchar (35)
-); -- tabla post revision
-
-CREATE TABLE estadia_carta( --dependiendo del tipo de carta son los campos que se tomaran, a su vez tambien varia el archivo de creacion
-cve_carta_estadia serial primary key,
-tipo_carta_estadia int,
-cve_estadia_alumno int,
-folio varchar (12),
-nombre_alumno varchar (120),
-carrera varchar(120),
-matricula varchar(12),
-fecha_inicio date,
-fecha_entrega date,
-nombre_asesor varchar (120),
-nombre_division varchar (60),
-abreviatura_area varchar (10),
-numero_seguro varchar (14),
-nombre_proyecto varchar(120),
-FOREIGN KEY (tipo_carta_estadia) REFERENCES tipo_carta_estadia(cve_tipo_carta_estadia),
-FOREIGN KEY (cve_estadia_alumno) REFERENCES estadia_alumno(cve_estadia_alumno)
 );
-
 
 CREATE TABLE estadia_alumno( --tabla modificada post revision
 cve_estadia_alumno serial primary key,
-cve_asesor int,
+cve_persona int,
 cve_coordinador int,
 cve_alumno_grupo int,
 fecha_registros date,
@@ -92,21 +72,20 @@ VALUES
 
 -- Numero Avance
 INSERT INTO numero_avance_estadia(descripcion)
-VALUES ('Primer'),
+VALUES ('Sin Entregar'),
+('Primer'),
 ('Segundo'),
-('Tercer');
+('Tecer');
 
 -- Estado Estadia
 INSERT INTO public.estado_estadia(descripcion, activo)
 VALUES ('Pendiente', True),
-('Aprobada',True),
-('Rechazada',True),
+('Aprobada',False),
+('Rechazada',False),
 ('Validada por el asesor',True),
-('Aprobada por el Coordinador', True),
-('Autorizada por el Rector',True),
+('Autorizada por el Director',True),
 ('Verificada por Servicios Escolares',True);
 ('Rechazada por el Asesor',True);
-('Rechazada por el Coordinador',True);
 ('Rechazada por el Director',True);
 ('Rechazada por Servicios Escolares',True);
 

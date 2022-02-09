@@ -88,18 +88,18 @@ else{
                     <td ><textarea id="empresa<%=av.getInt("agr")%>" name="empresa<%=av.getInt("agr")%>" rows="1" cols="25" maxlength="60"  style="resize:none;" required></textarea></td>
                     <td ><textarea id="asesor<%=av.getInt("agr")%>" name="asesor<%=av.getInt("agr")%>" rows="1" cols="25" maxlength="20"  style="resize:none;" required></textarea></td>
                     <td ><textarea id="puesto<%=av.getInt("agr")%>" name="puesto<%=av.getInt("agr")%>" rows="1" cols="15" maxlength="20"  style="resize:none;" required></textarea></td>
-                    <td><select class="sAvance" <%if(av.getInt("avances")>1)out.print("disabled");%>>
-                            <option class="ref-op" value="1-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-1" <%if(av.getInt("avances")==1)out.print("selected");%>>Activo</option>
-                            <option class="ref-op" value="0-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-1" <%if(av.getInt("avances")==0)out.print("selected");%>>In-activo</option>
-                        </select></td>
-                    <td><select class="sAvance" <%if(av.getInt("avances")<1 || av.getInt("avances")>2)out.print("disabled");%>>
+                    <td><select class="sAvance" <%if(av.getInt("avances")>2)out.print("disabled");%>>
                             <option class="ref-op" value="2-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-2" <%if(av.getInt("avances")>=2)out.print("selected");%>>Activo</option>
                             <option class="ref-op" value="1-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-2" <%if(av.getInt("avances")<2)out.print("selected");%>>In-activo</option>
+                        </select></td>
+                    <td><select class="sAvance" <%if(av.getInt("avances")<2 || av.getInt("avances")>3)out.print("disabled");%>>
+                            <option class="ref-op" value="3-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-3" <%if(av.getInt("avances")>=3)out.print("selected");%>>Activo</option>
+                            <option class="ref-op" value="2-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-3" <%if(av.getInt("avances")<3)out.print("selected");%>>In-activo</option>
                         </select>
                     </td>
-                    <td><select class="sAvance" <%if(av.getInt("avances")<2)out.print("disabled");%>>
-                            <option class="ref-op" value="3-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-3" <%if(av.getInt("avances")==3)out.print("selected");%>>Activo</option>
-                            <option class="ref-op" value="2-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-3" <%if(av.getInt("avances")<3)out.print("selected");%>>In-activo</option>
+                    <td><select class="sAvance" <%if(av.getInt("avances")<3)out.print("disabled");%>>
+                            <option class="ref-op" value="4-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-4" <%if(av.getInt("avances")==4)out.print("selected");%>>Activo</option>
+                            <option class="ref-op" value="3-<%=av.getInt("agr")%>-<%=cvePersona%>-<%=av.getInt("alumno")%>-4" <%if(av.getInt("avances")<4)out.print("selected");%>>In-activo</option>
                         </select>
                    </td>
                     <td><input type="button" value="C. Aceptacion" class="carta" data-val="1-<%=av.getInt("agr")%>-1"></td> 
@@ -108,7 +108,7 @@ else{
                     }
 }else{
 %>
-            <td colspan="9">
+            <td colspan="11">
                 
 <div class="error" style="display:block; padding-left: 35px;">
         Ningún alumno ha sido dado de alta aun...

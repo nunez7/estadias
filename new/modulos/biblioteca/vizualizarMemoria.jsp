@@ -31,3 +31,9 @@ if(usuario == null)
 <%
 }
 %>
+<script>
+        document.oncopy = ev =>{
+          ev.preventDefault();
+          event.clipboardData.setData('Has flipao, eh?');
+        };
+</script>

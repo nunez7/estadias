@@ -77,7 +77,7 @@ if(sesion.getAttribute("usuario") == null){
                       + "INNER JOIN carrera c on g.cve_carrera=c.cve_carrera "
                       + "LEFT JOIN estadia_alumno ea on ag.cve_alumno_grupo=ea.cve_alumno_grupo "
                       + "LEFT JOIN numero_avance_estadia na on ea.numero_avance=na.cve_numero_avance_estadia "
-                      + "WHERE ag.activo='True' and (g.cve_cuatrimestre=15 or g.cve_cuatrimestre=21) and c.cve_division="+claveDivision+" and ag.cve_periodo="+periodo);
+                      + "WHERE ag.activo='True' and (g.cve_cuatrimestre=11 or g.cve_cuatrimestre=19 or g.cve_cuatrimestre=16 or g.cve_cuatrimestre=21) and c.cve_division="+claveDivision+" and ag.cve_periodo="+periodo);
                     
                     ArrayList<CustomHashMap> asesores = siest.ejecutarConsulta("SELECT p.cve_persona, pf.cve_profesor, pf.cve_area, "
                     + "CONCAT(p.apellido_paterno,' ',p.apellido_materno,' ',p.nombre) as nombre_completo "

@@ -27,7 +27,7 @@ if(sesion.getAttribute("usuario") == null){
 %>
 <%
     int periodo = usuario.getCvePeriodo();
-
+    
         Datos siest = new Datos();
 
         int cvePersona = 0;
@@ -61,7 +61,7 @@ if(sesion.getAttribute("usuario") == null){
             </thead>
             <tbody>
                                <%
-                    
+                                   
                     ArrayList<CustomHashMap> alumnosEstadia = siest.ejecutarConsulta("SELECT a.matricula, ea.nombre_proyecto, ta.descripcion as documento, g.nombre as grupo, c.nombre as carrera, "
                       + "CONCAT(p.apellido_paterno,' ', p.apellido_materno,' ', p.nombre) as nombre_completo, ea.cve_estadia_archivo as ea, ee.cve_estadia_estado as clave, "
                       + "ea.cve_estadia_archivo as cve_estadia, ar.url as directorio, ee.cve_estado_estadia, es.descripcion as status, ag.cve_alumno_grupo as agr "
@@ -93,8 +93,8 @@ if(sesion.getAttribute("usuario") == null){
                     <td><%=a.getString("documento")%></td>
                     <td><%=a.getString("status")%></td>
                     <td><a target="_blank" href="/dexter/document/estadias/<%=a.getString("directorio")%>">Descargar</a></td>
-                    <td><input type="button" class="validaEstadia"  data-val="1-<%=a.getInt("cve_estadia")%>-<%=a.getInt("clave")%>-<%=cvePersona%>-<%=a.getInt("ea")%>-<%=a.getString("nombre_completo")%>-<%=a.getInt("agr")%>" value="Aprobar" <%if (a.getInt("cve_estado_estadia")!=3)out.print("hidden");%>></td>
-                    <td><input type="button" class="validaEstadia"  data-val="2-<%=a.getInt("cve_estadia")%>-<%=a.getInt("clave")%>-<%=cvePersona%>-<%=a.getInt("ea")%>-<%=a.getString("nombre_completo")%>-<%=a.getInt("agr")%>" value="Rechazar" <%if (a.getInt("cve_estado_estadia")!=3)out.print("hidden");%> ></td>
+                    <td><input type="button" class="validaEstadia"  data-val="1-<%=a.getInt("cve_estadia")%>-<%=a.getInt("clave")%>-<%=cvePersona%>-<%=a.getInt("ea")%>-<%=a.getString("nombre_completo")%>-<%=a.getInt("agr")%>" value="Aprobar" <%if (a.getInt("cve_estado_estadia")!=4)out.print("hidden");%>></td>
+                    <td><input type="button" class="validaEstadia"  data-val="2-<%=a.getInt("cve_estadia")%>-<%=a.getInt("clave")%>-<%=cvePersona%>-<%=a.getInt("ea")%>-<%=a.getString("nombre_completo")%>-<%=a.getInt("agr")%>" value="Rechazar" <%if (a.getInt("cve_estado_estadia")!=4)out.print("hidden");%> ></td>
                 </tr> 
                 <%
                     }
@@ -132,7 +132,7 @@ if(sesion.getAttribute("usuario") == null){
         if (eleccion==='1') {
             var p = confirm("Esta a punto de validar este envío, ¿Continuar?");
             comentario = "Sin Comentarios";
-            eleccion = 4;
+            eleccion = 5;
         }else{
             comentario = prompt("Ingrese la razón de su cancelación");
             var p = confirm("Esta a punto de rechazar este envío, ¿Continuar?");

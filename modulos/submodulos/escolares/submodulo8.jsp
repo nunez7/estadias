@@ -74,6 +74,7 @@
                     <th>Carrera</th>
                     <th>Nombre Proyecto</th>
                     <th>Documento</th>
+                    <th>Estado</th>
                     <!--<th>Estado</th>-->
                     <th colspan="3"><center>Acciones</center></th>
                 </tr>
@@ -94,7 +95,7 @@
                       + "INNER JOIN archivo ar on ea.cve_archivo=ar.cve_archivo "
                       + "INNER JOIN carrera c on g.cve_carrera=c.cve_carrera "
                       + "INNER JOIN estado_estadia es on ee.cve_estado_estadia=es.cve_estado_estadia "
-                      + "WHERE ag.activo='True' and (ee.cve_estado_estadia=4 or ee.cve_estado_estadia=5) and ee.activo='True' and ag.cve_periodo="+periodo+" "
+                      + "WHERE ag.activo='True' and (ee.cve_estado_estadia=5 or ee.cve_estado_estadia=6) and ee.activo='True' and ag.cve_periodo="+periodo+" "
                       + "ORDER BY ee.cve_estado_estadia asc, carrera asc, grupo asc, nombre_completo asc ");
                     
                     int n = 0;
@@ -110,9 +111,10 @@
                     <td><%=a.getString("carrera")%></td>
                     <td ><%=a.getString("nombre_proyecto")%></td>
                     <td><%=a.getString("documento")%></td>
+                    <td><%=a.getString("status")%></td>
                     <td><a target="_blank" href="/dexter/document/estadias/<%=a.getString("directorio")%>">Descargar</a></td>
-                    <td><input type="button" class="triumph" data-val="1-<%=a.getInt("cve_estadia")%>-<%=a.getInt("clave")%>-<%=cvePersona%>-<%=a.getInt("agr")%>-<%=a.getInt("tipo")%>" value="Aprobar" <%if (a.getInt("cve_estado_estadia")!=4)out.print("hidden");%>></td>
-                    <td><input type="button" class="triumph" data-val="2-<%=a.getInt("cve_estadia")%>-<%=a.getInt("clave")%>-<%=cvePersona%>-<%=a.getInt("agr")%>-<%=a.getInt("tipo")%>" value="Rechazar" <%if (a.getInt("cve_estado_estadia")!=4)out.print("hidden");%>></td>
+                    <td><input type="button" class="triumph" data-val="1-<%=a.getInt("cve_estadia")%>-<%=a.getInt("clave")%>-<%=cvePersona%>-<%=a.getInt("agr")%>-<%=a.getInt("tipo")%>" value="Aprobar" <%if (a.getInt("cve_estado_estadia")!=5)out.print("hidden");%>></td>
+                    <td><input type="button" class="triumph" data-val="2-<%=a.getInt("cve_estadia")%>-<%=a.getInt("clave")%>-<%=cvePersona%>-<%=a.getInt("agr")%>-<%=a.getInt("tipo")%>" value="Rechazar" <%if (a.getInt("cve_estado_estadia")!=5)out.print("hidden");%>></td>
                 </tr> 
                 <%
                     }
@@ -163,7 +165,7 @@
         if (eleccion==='1') {
             var p = confirm("Esta a punto de validar este envío, ¿Continuar?");
             comentario = "Sin Comentarios";
-            eleccion = 5;
+            eleccion = 6;
         }else{
             comentario = prompt("Ingrese la razón de su cancelación");
             var p = confirm("Esta a punto de rechazar este envío, ¿Continuar?");

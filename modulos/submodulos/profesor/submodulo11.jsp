@@ -117,6 +117,7 @@ else{
         var datos = data.split("-");
         var cveCoordinador = datos[0];
         var cveAlumno = datos[1];
+        
          var parametros = {cveCoordinador, cveAlumno, campo:'cve_persona',action: 'alta-coordinador'
            };
         if (e) {

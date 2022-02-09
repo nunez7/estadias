@@ -122,6 +122,9 @@ public class Estadia {
         siest.iniciarTransaccion();
         siest.serializarSentencia("INSERT INTO estadia_estado(cve_estado_estadia,cve_estadia_archivo,cve_persona,fecha_alta,activo)"
          + "VALUES(1,"+cveEnvioUltimo+","+cvePersona+",now(),'True');");
+       // int ag = getAlumnoGrupoPersona(cvePersona);
+        //int asesorAlumno = GetAsesorAlumno(ag);
+        //enviaCorreoAlumno(asesorAlumno);
         siest.finalizarTransaccion();
     }
     
@@ -211,7 +214,7 @@ public class Estadia {
         ArrayList<CustomHashMap> existente = siest.ejecutarConsulta("select cast(count(ea.cve_estadia_archivo) as integer) as contar "
                     +"FROM estadia_estado ea "
                     +"INNER JOIN estadia_archivo ee on ea.cve_estadia_archivo=ee.cve_estadia_archivo "
-                    +"WHERE cve_alumno_grupo="+alumnoGrupo+" and cve_estado_estadia NOT BETWEEN 6 AND 9 and activo='True' and tipo_archivo="+tipoArchivo);
+                    +"WHERE cve_alumno_grupo="+alumnoGrupo+" and cve_estado_estadia NOT BETWEEN 7 AND 9 and activo='True' and tipo_archivo="+tipoArchivo);
         int existe = existente.get(0).getInt("contar");
         return existe;
     }
@@ -264,14 +267,13 @@ public class Estadia {
         return number;
     }
     
-    public void actualizaCoordinadorAsesor(int cveCoordinador , int cveAlumno , String campo) throws ErrorGeneral{
+    public void actualizaCoordinadorAsesor(int cveAlumno , int cveCoordinador , String campo) throws ErrorGeneral{
         siest.iniciarTransaccion();
         siest.serializarSentencia("UPDATE estadia_alumno SET "+campo+"="+cveCoordinador+" WHERE cve_alumno_grupo="+cveAlumno+" and activo='True'");
         siest.finalizarTransaccion();
     }
     
     public void altaAsesorCoordinador(int cveAsesor, int cveAlumno, String campo) throws ErrorGeneral{
-       // int cveAlumnoGrupo = getAlumnoGrupoAlumno(cveAlumno);
         siest.iniciarTransaccion();
         siest.serializarSentencia("INSERT INTO estadia_alumno("+campo+", cve_alumno_grupo, fecha_registros, activo) "
                                  +"VALUES ("+cveAsesor+","+cveAlumno+",NOW(),'True');");
@@ -308,24 +310,24 @@ public class Estadia {
             String co = persona.getEmail();
             String contenido = "<p><strong>Tienes un archivo de estadía pendiente de revisión</strong><br> "
                     + "Para más información accede al Siest, apartado de estadía.</p>";
-            EnviarCorreo ec = new EnviarCorreo("utcsoporte@gmail.com", "rhekhienth.reality@gmail.com", "Revisión de documento de estadía pendiente", co, contenido);
-         //   ec.enviar();
+            EnviarCorreo ec = new EnviarCorreo("utcsoporte@gmail.com", co, "Revisión de documento de estadía pendiente", "Revisión de documento de estadía pendiente", contenido);
+            //ec.enviar();
     }
     
-    public void enviaCorreoEstado(int cveAlumno, int cvePersona, String status) throws ErrorGeneral{
+    public void enviaCorreoNegativoAlumno(int cveAlumno, int cvePersona) throws ErrorGeneral{
             Persona persona = new Persona(cveAlumno);
             String co = persona.getEmail();
             String nombrePersona = getNombreComplete(cvePersona);
-            String contenido = "<p><strong>Tu documento de estadía ha sido "+status+" por "+nombrePersona+"</strong><br>"
+            String contenido = "<p><strong>Tu documento de estadía ha sido rechazado por "+nombrePersona+"</strong><br>"
                     + "para más información accede al Siest, apartado de estadía.</p>";
-            EnviarCorreo ec = new EnviarCorreo("utcsoporte@gmail.com", "rhekhienth.reality@gmail.com", "Documento de Estadia Rechazado", co, contenido);
+            EnviarCorreo ec = new EnviarCorreo("utcsoporte@gmail.com",co, "Documento de Estadia Rechazado", "Revisión de documento de estadía pendiente", contenido);
             //ec.enviar();
     }
     
     public void enviaCorreoEscolares() throws ErrorGeneral{
             String contenido = "<p><strong>Tienes un archivo de estadía pendiente de revisión</strong><br>"
                     + "para más información accede al Siest, apartado de estadía.</p>";
-            EnviarCorreo ec = new EnviarCorreo("utcsoporte@gmail.com", "rhekhienth.reality@gmail.com", "Revisión de documento de estadía pendiente", "titulacion@utdelacosta.edu.mx", contenido);
+            EnviarCorreo ec = new EnviarCorreo("utcsoporte@gmail.com", "rhekhienth.reality@gmail.com", "Revisión de documento de estadía pendiente", "serviciosescolares@utdelacosta.edu.mx", contenido);
             //ec.enviar();
     }
     
@@ -333,20 +335,21 @@ public class Estadia {
             Persona persona = new Persona(cveAlumno);
             String co = persona.getEmail();
             String nombrePersona = getNombreComplete(cvePersona);
-            String contenido = "<p><strong>Tu "+avance+" avance de estadía ha sido "+resultado+" por "+nombrePersona+"</strong><br>"
+            String contenido = "<p><strong>Tu "+avance+" avance ha sido "+resultado+" por "+nombrePersona+"</strong><br>"
                     + "para más información accede al Siest, apartado de estadías.</p>";
-            EnviarCorreo ec = new EnviarCorreo("utcsoporte@gmail.com", "rhekhienth.reality@gmail.com", "Revisión de documento de estadía pendiente", co, contenido);
-            ec.enviar();
+            EnviarCorreo ec = new EnviarCorreo("utcsoporte@gmail.com", co, "Revisión de documento de estadía pendiente", "Revisión de documento de estadía pendiente", contenido);
+            //ec.enviar();
     }
     
     //TERMINA CORREOS
-    
     public int getCveDirector(int cveDivision) throws ErrorGeneral{
             ArrayList<CustomHashMap> consulta = siest.ejecutarConsulta("SELECT cve_director as clave "
                     + "FROM director_division "
                     + "WHERE cve_turno=1 and activo='True' and cve_division="+cveDivision+" "
                     + "ORDER BY cve_director_division asc LIMIT 1");
             int claveDire = consulta.get(0).getInt("clave");
+//            Persona persona = new Persona(cvePersona);
+//            String co = persona.getEmail();
             return claveDire;
     }
     
@@ -375,30 +378,34 @@ public class Estadia {
     
     //metodos para la baja del alumno
     public void bajaEstadoDocumento(int cvePersona, int cveDocumento) throws ErrorGeneral{    
-        switch (cveDocumento){ //obtenemos el tipo de documento a modificar
+        switch (cveDocumento){
                 case 27: cveDocumento=2; break;
                 case 28: cveDocumento=1; break;
                 case 30: cveDocumento=2; break;
                 case 31: cveDocumento=1; break; 
             }
-        int agp = getAlumnoGrupoPersona(cvePersona); //se obtiene el alumno grupo del cvePersona recibido
-        int eea = existeEstadiaAlumno(agp); //utilizamos el metodo existente para saber si existe un registro de estadia
-        if (eea==1) { //en caso de existir, revisamos si hay documento
-            ArrayList<CustomHashMap> existeDocumento = siest.ejecutarConsulta("SELECT DISTINCT(ee.cve_estadia_estado) as clave_estado "
+        int agp = getAlumnoGrupoPersona(cvePersona);
+        
+        int cvea = getCveAlumno(agp);
+        
+        //int eea = existeEstadiaAlumno(cvea);
+        
+        if (cvea==1) {
+            ArrayList<CustomHashMap> existeDocumento = siest.ejecutarConsulta("SELECT DISTINCT(ee.cve_estadia_estado) as contar "
                 + "FROM documento_persona dp "
                 + "INNER JOIN persona p on dp.cve_persona=p.cve_persona "
                 + "INNER JOIN alumno a on p.cve_persona=a.cve_persona "
                 + "INNER JOIN alumno_grupo ag on a.cve_alumno=ag.cve_alumno "
                 + "INNER JOIN estadia_archivo ea on ag.cve_alumno_grupo=ea.cve_alumno_grupo "
                 + "INNER JOIN estadia_estado ee on ea.cve_estadia_archivo=ee.cve_estadia_archivo "
-                + "WHERE ea.cve_alumno_grupo="+agp+" and ee.activo='True' and cve_estado_estadia=5 and ea.tipo_archivo="+cveDocumento);     
-        int existe = existeDocumento.get(0).getInt("clave_estado");
-            if(!existeDocumento.isEmpty()){ //en caso de existir el documento lo damos de baja por servicios escolares
-                int cveEstadiaA = GetUltimoArchivo(agp, cveDocumento);  
-                validaEstadiaEstado(cveEstadiaA, cvePersona, 9 , "Sin Comentarios",existe);
-            }
+                + "WHERE ea.cve_alumno_grupo="+agp+" and ee.activo='True' and cve_estado_estadia=7 and ea.tipo_archivo="+cveDocumento);     
+        int existe = existeDocumento.get(0).getInt("contar");
+        if(!existeDocumento.isEmpty()){
+          int cveEstadiaA = GetUltimoArchivo(agp, cveDocumento);  
+          validaEstadiaEstado(cveEstadiaA, cvePersona, 9 , "Sin Comentarios",existe);
+        }
         }
         
-        //en caso de no existir registro de estadia, como lo es con los registros antiguos no se realiza nada y se deja pasar
+        
     }
 }

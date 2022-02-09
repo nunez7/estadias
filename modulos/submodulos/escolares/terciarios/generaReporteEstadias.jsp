@@ -40,7 +40,7 @@
                       + "INNER JOIN archivo ar on ea.cve_archivo=ar.cve_archivo "
                       + "INNER JOIN carrera c on g.cve_carrera=c.cve_carrera "
                       + "INNER JOIN estado_estadia es on ee.cve_estado_estadia=es.cve_estado_estadia "
-                      + "WHERE ag.activo='True' and ee.cve_estado_estadia=5 and ee.activo='True' and ag.cve_periodo=41 and (tipo_archivo=1 or tipo_archivo=2) "
+                      + "WHERE ag.activo='True' and ee.cve_estado_estadia=6 and ee.activo='True' and ag.cve_periodo=41 and (tipo_archivo=1 or tipo_archivo=2) "
                       + "ORDER BY ee.cve_estado_estadia asc, carrera asc, grupo asc, nombre_completo asc ");
 %>
 <html lang="es">

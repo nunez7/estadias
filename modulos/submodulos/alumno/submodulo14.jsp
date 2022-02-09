@@ -40,14 +40,13 @@
         if (!isAlumno.isEmpty()) {
             int cveAlumno = isAlumno.get(0).getInt("cve_alumno");
             
-            ArrayList<CustomHashMap> estadia = siest.ejecutarConsulta("SELECT CAST(COUNT(cve_estadia_alumno) AS INTEGER) AS contar "
+            ArrayList<CustomHashMap> estadia = siest.ejecutarConsulta("SELECT CAST(COUNT(cve_persona) AS INTEGER) AS contar "
                     + "FROM estadia_alumno ea "
                     + "INNER JOIN alumno_grupo ag on ea.cve_alumno_grupo=ag.cve_alumno_grupo "
                     + "WHERE cve_alumno="+cveAlumno);
             int contar_estadia=estadia.get(0).getInt("contar"); 
             
             if (contar_estadia>0) { //verificamos que el usuario ya esta dado de alta como estudiante de estadia
-                    
             ArrayList<CustomHashMap> entregas = siest.ejecutarConsulta("SELECT CAST(ee.cve_estadia_estado AS INTEGER) as clave, ea.nombre_proyecto as proyecto,"
                     + " ta.descripcion as documento, TO_CHAR(ee.fecha_alta, 'dd/mm/yyyy') as fecha, a.url as directorio,"
                     + " COALESCE(ee.comentario, 'Sin Comentarios') as comentarios, e.descripcion as estado, ee.cve_estado_estadia "
@@ -61,21 +60,21 @@
             
             ArrayList<CustomHashMap> t_envio = siest.ejecutarConsulta("SELECT * from tipo_archivo ORDER BY cve_tipo_archivo LIMIT 2");
             
-            ArrayList<CustomHashMap> asesor = siest.ejecutarConsulta("SELECT CONCAT(p.apellido_paterno,' ', p.apellido_materno,' ', p.nombre) as nombre_completo "
+            ArrayList<CustomHashMap> asesor = siest.ejecutarConsulta("SELECT CONCAT(p.apellido_paterno,' ', p.apellido_materno,' ', p.nombre) as nombre_completo, p.cve_persona as clave_asesor "
                      + "FROM persona p "
                      + "INNER JOIN estadia_alumno ea on ea.cve_persona=p.cve_persona "
                      + "INNER JOIN alumno_grupo ag on ea.cve_alumno_grupo=ag.cve_alumno_grupo "
                      + "WHERE ag.cve_alumno="+cveAlumno);
-            String name_asesor =asesor.get(0).getString("nombre_completo");
+            String name_asesor = asesor.get(0).getString("nombre_completo");
              
-            boolean alt = false;
+            boolean alt = false; 
             
             ArrayList<CustomHashMap> aceptacion = siest.ejecutarConsulta("SELECT CAST(count(*) AS INTEGER) as contar "
             + "FROM estadia_archivo ea "
             + "INNER JOIN estadia_alumno aa on ea.cve_alumno_grupo=aa.cve_alumno_grupo "
             + "INNER JOIN estadia_estado ee on ea.cve_estadia_archivo=ee.cve_estadia_archivo "
             + "INNER JOIN alumno_grupo ag on ea.cve_alumno_grupo=ag.cve_alumno_grupo "
-            + "WHERE cve_alumno="+cveAlumno+" AND tipo_archivo=3 AND ee.cve_estado_estadia=5 AND aa.numero_avance=3");
+            + "WHERE cve_alumno="+cveAlumno+" AND tipo_archivo=3 AND ee.cve_estado_estadia=6 AND aa.numero_avance=4");
             int carta_aceptacion=aceptacion.get(0).getInt("contar");
 %>
 <form id="estadia-form" class="tablaScroll" enctype="multipart/form-data"> 
@@ -166,7 +165,16 @@
                         </form>
                         <%
                         }
-                        %>
+
+    }else{
+%>
+<div class="tabla"> <div class="error" style="display:block"><img src="temas/defecto/imagenes/icons/knownUser.png"> Alerta: aún no estás dado de alta en el servicio de estadías, si continuas con problemas contacta a tu asesor de estadía asignado o a servicios escolares</div></div>
+<%
+}
+}//cerramos la lista de alumnos
+}//cerramos el codigo de login
+%>
+
 <script> 
     $(".eliminaEnvio").click(function (i) {
         i.preventDefault();
@@ -261,12 +269,3 @@
     });
 
 </script>
-<%
-    }else{
-%>
-<div class="tabla"> <div class="error" style="display:block"><img src="temas/defecto/imagenes/icons/knownUser.png"> Alerta: aún no estás dado de alta en el servicio de estadías, si continuas con problemas contacta a tu asesor de estadía asignado o a servicios escolares</div></div>
-<%
-}
-}//cerramos la lista de alumnos
-}//cerramos el codigo de login
-%>

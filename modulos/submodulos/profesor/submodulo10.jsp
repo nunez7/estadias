@@ -105,7 +105,12 @@ else{
     </fieldset>
 </form>
 <%
-                    }
+                    }else{
+
+%><div class="error" style="display:block; padding-left: 35px;">
+      Ningun Alumno ha sido dado de alta aun.
+</div><%
+}
                 } 
             }
   
@@ -127,7 +132,7 @@ else{
         if (eleccion==='1') {
             var p = confirm("Esta a punto de validar este envío, ¿Continuar?");
             comentario = "Sin Comentarios";
-            eleccion = 3;
+            eleccion = 4;
         }else{
             comentario = prompt("Ingrese la razón de su cancelación");
             var p = confirm("Esta a punto de rechazar este envío, ¿Continuar?");

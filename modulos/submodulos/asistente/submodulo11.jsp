@@ -38,7 +38,7 @@ if(sesion.getAttribute("usuario") == null){
                       + "INNER JOIN grupo g on ag.cve_grupo=g.cve_grupo "
                       + "INNER JOIN persona p on a.cve_persona=p.cve_persona "
                       + "LEFT JOIN estadia_alumno ea on ag.cve_alumno_grupo=ea.cve_alumno_grupo "
-                      + "WHERE ag.activo='True' and g.cve_grupo="+cveGrupo+" and (g.cve_cuatrimestre=15 or g.cve_cuatrimestre=21) and ag.cve_periodo="+periodo);
+                      + "WHERE ag.activo='True' and g.cve_grupo="+cveGrupo+" and (g.cve_cuatrimestre=11 or g.cve_cuatrimestre=19 or g.cve_cuatrimestre=16 or g.cve_cuatrimestre=21) and ag.cve_periodo="+periodo);
               
    if (!alumnosEstadia.isEmpty()) {
 

@@ -36,7 +36,7 @@ consulta = "(SELECT l.cve_libro, l.nombre,  l.codigo_barras, l.activo, COALESCE(
         + "INNER JOIN alumno a on ag.cve_alumno=a.cve_alumno "
         + "INNER JOIN persona p on a.cve_persona=p.cve_persona "
         + "INNER JOIN estadia_estado ee on ea.cve_estadia_archivo=ee.cve_estadia_archivo "
-        + "WHERE cve_estado_estadia=5 and ea.tipo_archivo=1"
+        + "WHERE cve_estado_estadia=5 and ea.tipo_archivo=2"
         + "AND TRANSLATE(ea.nombre_proyecto,'ÁÉÍÓÚáéíóú','AEIOUaeiou') iLIKE translate('%"+like+"%','ÁÉÍÓÚáéíóú','AEIOUaeiou'))";
 }
 ArrayList<CustomHashMap> libros = new Datos().ejecutarConsulta(consulta);
